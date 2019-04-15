@@ -1,0 +1,15 @@
+"D:\iar\arm\bin\armproc.dll" 
+
+"D:\iar\arm\bin\armjlink.dll" 
+
+"E:\嵌入式单片机学习\我的练习\V3开发板练习\io-uart-timer-adc-spi_redcon-oled\Debug\Exe\FS_AI_C.out" 
+
+--plugin "D:\iar\arm\bin\armbat.dll" 
+
+--device_macro "D:\iar\arm\config\debugger\ST\STM32F1xx_XL.dmac" 
+
+--flash_loader "D:\iar\arm\config\flashloader\ST\FlashSTM32F10xxE.board" 
+
+
+
+

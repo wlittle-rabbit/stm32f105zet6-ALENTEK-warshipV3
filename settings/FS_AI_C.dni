@@ -1,0 +1,148 @@
+[Stack]
+FillEnabled=0
+OverflowWarningsEnabled=1
+WarningThreshold=90
+SpWarningsEnabled=1
+WarnLogOnly=1
+UseTrigger=1
+TriggerName=main
+LimitSize=0
+ByteLimit=50
+[Interrupts]
+Enabled=1
+[MemoryMap]
+Enabled=0
+Base=0
+UseAuto=0
+TypeViolation=1
+UnspecRange=1
+ActionState=1
+[Trace1]
+Enabled=0
+ShowSource=1
+[DebugChecksum]
+Checksum=1703476208
+[Exceptions]
+StopOnUncaught=_ 0
+StopOnThrow=_ 0
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
+[SWOTraceHWSettings]
+OverrideDefaultClocks=0
+CpuClock=72000000
+ClockAutoDetect=0
+ClockWanted=2000000
+JtagSpeed=2000000
+Prescaler=36
+TimeStampPrescIndex=0
+TimeStampPrescData=0
+PcSampCYCTAP=1
+PcSampPOSTCNT=15
+PcSampIndex=0
+DataLogMode=0
+ITMportsEnable=0
+ITMportsTermIO=0
+ITMportsLogFile=0
+ITMlogFile=$PROJ_DIR$\ITM.log
+[SfrWindow]
+Show=1 1
+Sort=4 0
+[DriverProfiling]
+Enabled=0
+Mode=3
+Graph=0
+Symbiont=0
+Exclusions=
+[JLinkDriver]
+CStepIntDis=_ 0
+[CodeCoverage]
+Enabled=_ 0
+[array_types]
+Fmt0=float[10]	4	0
+[watch_formats]
+Fmt0={W}0:a	4	0
+Fmt1={W}0:a0	4	0
+Fmt2={W}0:a1	4	0
+Fmt3={W}0:b1	4	0
+Fmt4={W}1:d0to1	4	0
+Fmt5={W}1:d13to15	4	0
+Fmt6={W}1:d2to3	4	0
+Fmt7={W}1:d4to12	4	0
+Fmt8={W}1:readdata	4	2
+Fmt9={W}1:red_content	4	0
+[Trace2]
+Enabled=0
+ShowSource=0
+[SWOTraceWindow]
+PcSampling=0
+InterruptLogs=0
+ForcedTimeStamps=0
+EventCPI=0
+EventEXC=0
+EventFOLD=0
+EventLSU=0
+EventSLEEP=0
+[PowerLog]
+Title_0=I0
+Symbol_0=0 4 1
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+LiveEnabled=0
+LiveFile=PowerLogLive.log
+[DataLog]
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+SumEnabled=0
+ShowTimeSum=1
+[EventLog]
+Title_0=Ch3
+Symbol_0=0 4 1
+Title_1=Ch2
+Symbol_1=0 4 1
+Title_2=Ch1
+Symbol_2=0 4 1
+Title_3=Ch0
+Symbol_3=0 4 1
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+SumEnabled=0
+ShowTimeSum=1
+SumSortOrder=0
+[InterruptLog]
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+SumEnabled=0
+ShowTimeSum=1
+SumSortOrder=0
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
+[CallStackLog]
+Enabled=0
+[CallStackStripe]
+ShowTiming=1
+[PowerProbe]
+Frequency=10000
+Probe0=I0
+ProbeSetup0=2 1 1 2 0 0
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
+[Aliases]
+A0=_ "C:\Users\saic\Desktop\10-20\AI_test0831\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c" ""
+A1=_ "C:\Users\saic\Desktop\10-20\AI_test0831\User\main.c" ""
+A2=_ "E:\嵌入式单片机学习\我的练习\V3开发板练习\io-uart\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c" ""
+A3=_ "E:\嵌入式单片机学习\我的练习\V3开发板练习\io-uart\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c" ""
+Count=4
+SuppressDialog=1
