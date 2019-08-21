@@ -12,6 +12,8 @@
 //#define RED_CONTROL 1
 //#define OLED 1
 #define LCD 1 
+//#define I2C 1
+
 void RCC_Configuration_t(void)
 {
   /* RCC system reset(for debug purpose) */
@@ -55,7 +57,7 @@ void RCC_Configuration_t(void)
                          RCC_APB2Periph_GPIOG | RCC_APB2Periph_ADC3  |
                          RCC_APB2Periph_AFIO  ,ENABLE);
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3  | RCC_APB1Periph_SPI2  |
-                         RCC_APB1Periph_TIM5  | RCC_APB1Periph_TIM4 ,ENABLE);
+                         RCC_APB1Periph_TIM5  | RCC_APB1Periph_TIM4 |RCC_APB1Periph_I2C1,ENABLE);
 }
 void initled()
 {
@@ -167,7 +169,7 @@ u16 get_adc3()
   RCC_Configuration_t();
   initled();
   init_usart1(115200);
-  
+  delay_init();
 #ifdef TIME_DELAY
   init_timer3_ms(100);
 #endif
@@ -209,8 +211,15 @@ u16 get_adc3()
 #endif
   
 #ifdef LCD
-  init_lcd();
+  //init_lcd();
+  //init_fmsc_lcd();
+  LCD_Init();
 #endif
+  
+#ifdef I2C
+  at24cxx_i2c_init();
+#endif
+  
   while(1)
   {
 #ifdef BEEP
@@ -271,13 +280,31 @@ u16 get_adc3()
     close_DS0();
     msleep(500);*/
 #elif LCD
-    lcd_test();
+    //lcd_test();
+    //u16 id=0;
+   // id=lcd_fmsc_readID();
+    //uartsend_char((u8)(id>>8));
+    //uartsend_char((u8)id);
+    LCD_ShowString(30,70,200,16,16,"TFTLCD TEST");
     msleep(1000);
+#elif I2C 
+    char aa;
+    i2c_write(0x10,0x30);
+    delay_us(1000);
+    while(1){
+      aa=i2c_read(0x10);
+      uartsend_string("i2c test\r\n",sizeof("i2c test\r\n"));
+      uartsend_char(aa);
+      uartsend_string("\r\n",sizeof("\r\n"));
+      delay_us(500000);
+      delay_us(500000);
+    }
+    
 #else
     open_DS0();
-    msleep(200);
+    delay_us(500000);//msleep(200);
     close_DS0();
-    msleep(200);
+    delay_us(500000);//msleep(200);
 #endif
   }
 }

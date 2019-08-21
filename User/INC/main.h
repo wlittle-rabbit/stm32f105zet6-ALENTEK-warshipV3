@@ -66,4 +66,9 @@ extern void init_oled();
 extern void oled_test();
 extern void init_lcd();
 extern void lcd_test();
+extern void at24cxx_i2c_init();
+extern void delay_init();
+extern void  delay_us(u32 nus);
+extern void i2c_write(u8 addr,u8 data);
+extern u8 i2c_read(u8 nAddr);
 #endif
