@@ -22,7 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
-
+#include<string.h>
 #include "stm32f10x.h"
 #define KEY0 GPIO_Pin_4
 #define KEY1 GPIO_Pin_3
@@ -71,4 +71,7 @@ extern void delay_init();
 extern void  delay_us(u32 nus);
 extern void i2c_write(u8 addr,u8 data);
 extern u8 i2c_read(u8 nAddr);
+extern void set_ble_baud(int baud);
+extern void init_bluetooth(int baud);
+extern void send_data_blue(char *str);
 #endif

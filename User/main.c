@@ -11,8 +11,9 @@
 //#define TIM_INPUT_CAPTURE 1
 //#define RED_CONTROL 1
 //#define OLED 1
-#define LCD 1 
+//#define LCD 1 
 //#define I2C 1
+#define BLUETOOTH 1
 
 void RCC_Configuration_t(void)
 {
@@ -220,6 +221,9 @@ u16 get_adc3()
   at24cxx_i2c_init();
 #endif
   
+#ifdef BLUETOOTH
+  init_bluetooth(115200);
+#endif
   while(1)
   {
 #ifdef BEEP
@@ -299,12 +303,21 @@ u16 get_adc3()
       delay_us(500000);
       delay_us(500000);
     }
+#elif BLUETOOTH
+    
+    delay_us(1000000);
+   
+    send_data_blue("hello world");
     
 #else
-    open_DS0();
-    delay_us(500000);//msleep(200);
-    close_DS0();
-    delay_us(500000);//msleep(200);
+    
+      open_DS1();
+      delay_us(500000);//msleep(200);
+      USART_SendData(USART1,sizeof("hello world")-1);
+      close_DS1();
+      delay_us(500000);//msleep(200);
+      
+    
 #endif
   }
 }

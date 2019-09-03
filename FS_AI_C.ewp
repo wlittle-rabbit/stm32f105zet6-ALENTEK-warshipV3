@@ -1960,6 +1960,9 @@
       <name>$PROJ_DIR$\User\beep.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\User\ble.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\User\i2c.c</name>
     </file>
     <file>
