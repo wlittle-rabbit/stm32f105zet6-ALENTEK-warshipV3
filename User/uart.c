@@ -21,7 +21,7 @@ void init_usart1(int rate)
   USART_Cmd(USART1, ENABLE);
   
   //使能串口1中断-接收数据完成中断
-  USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);//开启中断
+  /*USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);//开启中断
   // 设置中断优先级-主函数中设置中断优先级分组
   NVIC_InitTypeDef NVIC_InitStrue;
   NVIC_InitStrue.NVIC_IRQChannel= USART1_IRQn;
@@ -29,6 +29,7 @@ void init_usart1(int rate)
   NVIC_InitStrue.NVIC_IRQChannelPreemptionPriority=1;//抢占优先级 1
   NVIC_InitStrue.NVIC_IRQChannelSubPriority=1;//子优先级 1
   NVIC_Init(&NVIC_InitStrue);//中断优先级初始化
+  */
 }
 void uartsend_string(char *p,int n)
 {
@@ -41,6 +42,24 @@ void uartsend_char(char a)
 {
   USART_SendData(USART1,a);
   while(USART_GetFlagStatus(USART1,USART_FLAG_TXE)!=SET);
+}
+char uartrecv_char_forever(void)
+{
+  while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE)==RESET);
+  return USART_ReceiveData(USART1);
+}
+void uartrecv_string_forever(char *p)
+{
+  int i=0;
+  while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE)==RESET);
+  p[0]=USART_ReceiveData(USART1);
+  USART_ClearFlag(USART1,USART_FLAG_RXNE);
+  while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE)==SET)
+  {
+    i++;
+    p[i]=USART_ReceiveData(USART1);
+    USART_ClearFlag(USART1,USART_FLAG_RXNE);
+  }
 }
 char int_to_char(int a)
 {
@@ -87,7 +106,7 @@ int u16_to_string(int a,char *p)
   return len;
 }
  
-//#ifdef BLUETOOTH
+#ifdef BLUETOOTH
 // 中断服务函数
 void USART1_IRQHandler(void)
 {
@@ -102,4 +121,4 @@ void USART1_IRQHandler(void)
     }
     USART_ClearITPendingBit(USART1,USART_IT_RXNE);
 }
-//#endif
+#endif
