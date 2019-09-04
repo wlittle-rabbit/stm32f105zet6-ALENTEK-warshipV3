@@ -20,15 +20,15 @@ void init_usart1(int rate)
   USART_Init(USART1, &USART_InitStructure);
   USART_Cmd(USART1, ENABLE);
   
-  //Ê¹ÄÜ´®¿Ú1ÖĞ¶Ï-½ÓÊÕÊı¾İÍê³ÉÖĞ¶Ï
-  USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);//¿ªÆôÖĞ¶Ï
-  // ÉèÖÃÖĞ¶ÏÓÅÏÈ¼¶-Ö÷º¯ÊıÖĞÉèÖÃÖĞ¶ÏÓÅÏÈ¼¶·Ö×é
+  //ä½¿èƒ½ä¸²å£1ä¸­æ–­-æ¥æ”¶æ•°æ®å®Œæˆä¸­æ–­
+  USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);//å¼€å¯ä¸­æ–­
+  // è®¾ç½®ä¸­æ–­ä¼˜å…ˆçº§-ä¸»å‡½æ•°ä¸­è®¾ç½®ä¸­æ–­ä¼˜å…ˆçº§åˆ†ç»„
   NVIC_InitTypeDef NVIC_InitStrue;
   NVIC_InitStrue.NVIC_IRQChannel= USART1_IRQn;
-  NVIC_InitStrue.NVIC_IRQChannelCmd=ENABLE;//IRQ Í¨µÀÊ¹ÄÜ
-  NVIC_InitStrue.NVIC_IRQChannelPreemptionPriority=1;//ÇÀÕ¼ÓÅÏÈ¼¶ 1
-  NVIC_InitStrue.NVIC_IRQChannelSubPriority=1;//×ÓÓÅÏÈ¼¶ 1
-  NVIC_Init(&NVIC_InitStrue);//ÖĞ¶ÏÓÅÏÈ¼¶³õÊ¼»¯
+  NVIC_InitStrue.NVIC_IRQChannelCmd=ENABLE;//IRQ é€šé“ä½¿èƒ½
+  NVIC_InitStrue.NVIC_IRQChannelPreemptionPriority=1;//æŠ¢å ä¼˜å…ˆçº§ 1
+  NVIC_InitStrue.NVIC_IRQChannelSubPriority=1;//å­ä¼˜å…ˆçº§ 1
+  NVIC_Init(&NVIC_InitStrue);//ä¸­æ–­ä¼˜å…ˆçº§åˆå§‹åŒ–
 }
 void uartsend_string(char *p,int n)
 {
@@ -86,16 +86,18 @@ int u16_to_string(int a,char *p)
   }
   return len;
 }
- 
+//ä¸²å£åè®®
+//å¸§å¤´-å¸§é•¿-å¸§ç±»å‹-å†…å®¹-æ ¡éªŒå’Œ-å¸§å°¾ ä¾‹å¦‚0x55 0x01 0x01 0xFA 0xFC 0xAA æ ¡éªŒå’Œ=å¸§é•¿+å¸§ç±»å‹+å†…å®¹ æš‚ä¸è€ƒè™‘è¶…è¿‡0xFFå–è¡¥ç 
+char uartrecv_data[128];
 //#ifdef BLUETOOTH
-// ÖĞ¶Ï·şÎñº¯Êı
+// ä¸­æ–­æœåŠ¡å‡½æ•°
 void USART1_IRQHandler(void)
 {
     u8 res;
-    if(USART_GetITStatus(USART1,USART_IT_RXNE))// ½ÓÊÕµ½Êı¾İ
+    if(USART_GetITStatus(USART1,USART_IT_RXNE))// æ¥æ”¶åˆ°æ•°æ®
     {
-        res= USART_ReceiveData(USART1); // »ñµÃ´®¿Ú1½ÓÊÕµ½µÄÊı¾İ
-	if(res>0x40)
+        res= USART_ReceiveData(USART1); // è·å¾—ä¸²å£1æ¥æ”¶åˆ°çš„æ•°æ®
+	if(res==0x55)
          open_DS1();
         else
          close_DS1();
