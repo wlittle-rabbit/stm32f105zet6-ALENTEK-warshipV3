@@ -304,10 +304,9 @@ u16 get_adc3()
       delay_us(500000);
     }
 #elif BLUETOOTH
-    
-    delay_us(1000000);
    
-    send_data_blue("hello world");
+    
+    
     
 #else
     
@@ -317,6 +316,14 @@ u16 get_adc3()
       close_DS1();
       delay_us(500000);//msleep(200);
       
+      /*
+       int str_len=0;
+    delay_us(1000000);
+    char uartrecv_data[128]={0};
+     str_len=uartrecv_string_int(uartrecv_data, 500);
+    uartsend_string("recv str is\r\n",sizeof("recv str is\r\n")-1);
+    uartsend_string(uartrecv_data,strlen(uartrecv_data));
+      */
     
 #endif
   }

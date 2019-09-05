@@ -74,4 +74,8 @@ extern u8 i2c_read(u8 nAddr);
 extern void set_ble_baud(int baud);
 extern void init_bluetooth(int baud);
 extern void send_data_blue(char *str);
+extern char uartrecv_char(void);
+extern void uartrecv_string_forever(char *p);
+extern int usart_receive_frame(); 
+extern int uartrecv_string_int(char *recvdata,int timeout_us);
 #endif
