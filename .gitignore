@@ -1,0 +1,7 @@
+*.o
+Debug/Exe/FS_AI_C.hex
+Debug/Obj/sdio.pbi
+Debug/Obj/sdio.pbi.cout
+Debug/Obj/stm32f10x_sdio.pbi
+Debug/Obj/stm32f10x_sdio.pbi.cout
+Debug/Exe/FS_AI_C.hex

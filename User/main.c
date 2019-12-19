@@ -1,20 +1,21 @@
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usb_pwr.h"
+//#include "usb_core.h"
+//#include "usb_type.h"
 #include <stdio.h>
 //#define BEEP 1
 //define TIME_DELAY
 //#define LIGHT_SENSOR 1
 //#define KEY 1
 //#define SPI_FLASH 1
-
 //#define TIM_INPUT_CAPTURE 1
 //#define RED_CONTROL 1
 //#define OLED 1
 //#define LCD 1 
 //#define I2C 1
-#define BLUETOOTH 1
-
+//#define BLUETOOTH 1
+#define USB 1
 void RCC_Configuration_t(void)
 {
   /* RCC system reset(for debug purpose) */
@@ -212,8 +213,6 @@ u16 get_adc3()
 #endif
   
 #ifdef LCD
-  //init_lcd();
-  //init_fmsc_lcd();
   LCD_Init();
 #endif
   
@@ -223,6 +222,23 @@ u16 get_adc3()
   
 #ifdef BLUETOOTH
   init_bluetooth(115200);
+#endif
+  
+#ifdef USB
+  u16 t;
+  u16 times=0;    
+  u8 usbstatus=0;
+  u16 len_usb;	
+  
+  delay_ms(1800);
+  LCD_Init();
+  USB_Port_Set(0); 	//USB断开
+  delay_ms(700);
+  USB_Port_Set(1);	//USB连接
+  Set_USBClock(); 
+  USB_Interrupts_Config();
+  USB_Init();
+  
 #endif
   while(1)
   {
@@ -284,11 +300,6 @@ u16 get_adc3()
     close_DS0();
     msleep(500);*/
 #elif LCD
-    //lcd_test();
-    //u16 id=0;
-   // id=lcd_fmsc_readID();
-    //uartsend_char((u8)(id>>8));
-    //uartsend_char((u8)id);
     LCD_ShowString(30,70,200,16,16,"TFTLCD TEST");
     msleep(1000);
 #elif I2C 
@@ -305,17 +316,47 @@ u16 get_adc3()
     }
 #elif BLUETOOTH
    
-    
-    
-    
+#elif USB
+    if(usbstatus!=bDeviceState)//USB连接状态发生变化.
+    {
+            usbstatus=bDeviceState;//记录新的状态
+            if(usbstatus==CONFIGURED)
+            {
+                    LCD_ShowString(30,130,200,16,16,"USB Connected    ");//ìáê?USBá??ó3é1|
+                    open_DS1();
+            }else
+            {
+                    LCD_ShowString(30,130,200,16,16,"USB disConnected");//ìáê?USB???a
+                    close_DS1();
+            }
+    }
+    if(USB_USART_RX_STA&0x8000){					   
+            len_usb=USB_USART_RX_STA&0x3FFF;//得到此次接收到的数据长度
+            usb_printf("\r\n你发送的消息为:%d\r\n\r\n",len_usb);
+            for(t=0;t<len_usb;t++)
+            {
+                    USB_USART_SendData(USB_USART_RX_BUF[t]);//以字节方式，发送给USB 
+            }
+            usb_printf("\r\n\r\n");//插入换行
+            USB_USART_RX_STA=0;
+    }
+    else{
+            times++;
+            if(times%5000==0)
+            {
+                    usb_printf("\r\nSTM32 USB串口实验\r\n");
+                    usb_printf("开发板ALIENTEK\r\n\r\n");
+            }
+            if(times%200==0)usb_printf("输入数据，以回车结束\r\n");    
+            delay_ms(10);   
+    }
+	
 #else
-    
       open_DS1();
       delay_us(500000);//msleep(200);
-      USART_SendData(USART1,sizeof("hello world")-1);
+      uartsend_string("recv str is\r\n",sizeof("recv str is\r\n")-1);
       close_DS1();
-      delay_us(500000);//msleep(200);
-      
+      delay_us(500000);//msleep(200);  
       /*
        int str_len=0;
     delay_us(1000000);
@@ -323,8 +364,7 @@ u16 get_adc3()
      str_len=uartrecv_string_int(uartrecv_data, 500);
     uartsend_string("recv str is\r\n",sizeof("recv str is\r\n")-1);
     uartsend_string(uartrecv_data,strlen(uartrecv_data));
-      */
-    
+      */ 
 #endif
   }
 }

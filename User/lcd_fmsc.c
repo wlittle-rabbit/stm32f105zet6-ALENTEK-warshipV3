@@ -523,12 +523,11 @@ void LCD_Init(void)
 { 					
  	GPIO_InitTypeDef GPIO_InitStructure;
 	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
-  FSMC_NORSRAMTimingInitTypeDef  readWriteTiming; 
+        FSMC_NORSRAMTimingInitTypeDef  readWriteTiming; 
 	FSMC_NORSRAMTimingInitTypeDef  writeTiming;
 	
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC,ENABLE);	//ê1?üFSMCê±?ó
+        RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC,ENABLE);	//ê1?üFSMCê±?ó
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_GPIOD|RCC_APB2Periph_GPIOE|RCC_APB2Periph_GPIOG,ENABLE);//ê1?üPORTB,D,E,Gò??°AFIO?′ó?1|?üê±?ó
-
  
  	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;				 //PB0 í?íìê?3? ±31a
  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //í?íìê?3?
@@ -554,41 +553,40 @@ void LCD_Init(void)
  	GPIO_Init(GPIOG, &GPIO_InitStructure); 
 
 	readWriteTiming.FSMC_AddressSetupTime = 0x01;	 //μ??·?¨á￠ê±??￡¨ADDSET￡??a2??HCLK 1/36M=27ns
-  readWriteTiming.FSMC_AddressHoldTime = 0x00;	 //μ??·±￡3?ê±??￡¨ADDHLD￡??￡ê?A?′ó?μ?	
-  readWriteTiming.FSMC_DataSetupTime = 0x0f;		 // êy?Y±￡′?ê±???a16??HCLK,òò?aòo?§?y?ˉICμ??áêy?Yμ?ê±oò￡??ù?è2??üì??ì￡?óè????1289?a??IC?￡
-  readWriteTiming.FSMC_BusTurnAroundDuration = 0x00;
-  readWriteTiming.FSMC_CLKDivision = 0x00;
-  readWriteTiming.FSMC_DataLatency = 0x00;
-  readWriteTiming.FSMC_AccessMode = FSMC_AccessMode_A;	 //?￡ê?A 
+        readWriteTiming.FSMC_AddressHoldTime = 0x00;	 //μ??·±￡3?ê±??￡¨ADDHLD￡??￡ê?A?′ó?μ?	
+        readWriteTiming.FSMC_DataSetupTime = 0x0f;		 // êy?Y±￡′?ê±???a16??HCLK,òò?aòo?§?y?ˉICμ??áêy?Yμ?ê±oò￡??ù?è2??üì??ì￡?óè????1289?a??IC?￡
+        readWriteTiming.FSMC_BusTurnAroundDuration = 0x00;
+        readWriteTiming.FSMC_CLKDivision = 0x00;
+        readWriteTiming.FSMC_DataLatency = 0x00;
+        readWriteTiming.FSMC_AccessMode = FSMC_AccessMode_A;	 //?￡ê?A 
     
 
 	writeTiming.FSMC_AddressSetupTime = 0x00;	 //μ??·?¨á￠ê±??￡¨ADDSET￡??a1??HCLK  
-  writeTiming.FSMC_AddressHoldTime = 0x00;	 //μ??·±￡3?ê±??￡¨A		
-  writeTiming.FSMC_DataSetupTime = 0x03;		 ////êy?Y±￡′?ê±???a4??HCLK	
-  writeTiming.FSMC_BusTurnAroundDuration = 0x00;
-  writeTiming.FSMC_CLKDivision = 0x00;
-  writeTiming.FSMC_DataLatency = 0x00;
-  writeTiming.FSMC_AccessMode = FSMC_AccessMode_A;	 //?￡ê?A 
+        writeTiming.FSMC_AddressHoldTime = 0x00;	 //μ??·±￡3?ê±??￡¨A		
+        writeTiming.FSMC_DataSetupTime = 0x03;		 ////êy?Y±￡′?ê±???a4??HCLK	
+        writeTiming.FSMC_BusTurnAroundDuration = 0x00;
+        writeTiming.FSMC_CLKDivision = 0x00;
+        writeTiming.FSMC_DataLatency = 0x00;
+        writeTiming.FSMC_AccessMode = FSMC_AccessMode_A;	 //?￡ê?A 
 
  
-  FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM4;//  ?aà??ò??ê1ó?NE4 ￡?ò2?í??ó|BTCR[6],[7]?￡
-  FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable; // 2??′ó?êy?Yμ??·
-  FSMC_NORSRAMInitStructure.FSMC_MemoryType =FSMC_MemoryType_SRAM;// FSMC_MemoryType_SRAM;  //SRAM   
-  FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;//′?′￠?÷êy?Y?í?è?a16bit   
-  FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode =FSMC_BurstAccessMode_Disable;// FSMC_BurstAccessMode_Disable; 
-  FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
-	FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait=FSMC_AsynchronousWait_Disable; 
-  FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;   
-  FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;  
-  FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;	//  ′?′￠?÷D′ê1?ü
-  FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;   
-  FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Enable; // ?áD′ê1ó?2?í?μ?ê±Dò
-  FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable; 
-  FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &readWriteTiming; //?áD′ê±Dò
-  FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &writeTiming;  //D′ê±Dò
+        FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM4;//  ?aà??ò??ê1ó?NE4 ￡?ò2?í??ó|BTCR[6],[7]?￡
+        FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable; // 2??′ó?êy?Yμ??·
+        FSMC_NORSRAMInitStructure.FSMC_MemoryType =FSMC_MemoryType_SRAM;// FSMC_MemoryType_SRAM;  //SRAM   
+        FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;//′?′￠?÷êy?Y?í?è?a16bit   
+        FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode =FSMC_BurstAccessMode_Disable;// FSMC_BurstAccessMode_Disable; 
+        FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
+        FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait=FSMC_AsynchronousWait_Disable; 
+        FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;   
+        FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;  
+        FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;	//  ′?′￠?÷D′ê1?ü
+        FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;   
+        FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Enable; // ?áD′ê1ó?2?í?μ?ê±Dò
+        FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable; 
+        FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &readWriteTiming; //?áD′ê±Dò
+        FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &writeTiming;  //D′ê±Dò
 
-  FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);  //3?ê??ˉFSMC????
-
+        FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);  //3?ê??ˉFSMC????
  	FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM4, ENABLE);  // ê1?üBANK1 
 		
  
@@ -643,7 +641,7 @@ void LCD_Init(void)
 			}
  		}  	
 	} 
- 	printf(" LCD ID:%x\r\n",lcddev.id); //′òó?LCD ID   
+ 	//printf(" LCD ID:%x\r\n",lcddev.id); //′òó?LCD ID   
 	if(lcddev.id==0X9341)	//93413?ê??ˉ
 	{	 
 		LCD_WR_REG(0xCF);  
@@ -2005,7 +2003,7 @@ void LCD_Init(void)
         delay_ms(50); 
         LCD_WriteReg(0x0020,0x0000);                                                            
         LCD_WriteReg(0x0021,0x0000);           
-		delay_ms(50); 
+	delay_ms(50); 
 		//ù¤?íD￡?y
         LCD_WriteReg(0x0030,0x0000); 
         LCD_WriteReg(0x0031,0x0604);   
@@ -2366,8 +2364,6 @@ void LCD_Init(void)
 		LCD_WriteReg(0x0038,0x0001);
 		LCD_WriteReg(0x0039,0x0004);
 		
-		
-		
 		LCD_WriteReg(0x0090, 0x0015);	//80Hz
 		LCD_WriteReg(0x0010, 0X0410);	//BT,AP
 		LCD_WriteReg(0x0011,0x0247);	//DC1,DC0,VC
@@ -2712,35 +2708,35 @@ void LCD_Draw_Circle(u16 x0,u16 y0,u8 r)
 //x,y:?eê?×?±ê
 //num:òa??ê?μ?×?·?:" "--->"~"
 //size:×?ì?′óD? 12/16/24
-//mode:μt?ó·?ê?(1)?1ê?·?μt?ó·?ê?(0)
+//mode:叠加方式(1)非叠加方式(0)
 void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode)
 {  							  
     u8 temp,t1,t;
-	u16 y0=y;
-	u8 csize=(size/8+((size%8)?1:0))*(size/2);		//μ?μ?×?ì?ò???×?·???ó|μ??ó?ˉ?ù??μ?×??úêy	
- 	num=num-' ';//μ?μ???ò?oóμ??μ￡¨ASCII×??aê?′ó?????aê?è??￡￡??ùò?-' '?íê???ó|×?·?μ?×??a￡?
-	for(t=0;t<csize;t++)
-	{   
-		if(size==12)temp=asc2_1206[num][t]; 	 	//μ÷ó?1206×?ì?
-		else if(size==16)temp=asc2_1608[num][t];	//μ÷ó?1608×?ì?
-		else if(size==24)temp=asc2_2412[num][t];	//μ÷ó?2412×?ì?
-		else return;								//??óDμ?×??a
-		for(t1=0;t1<8;t1++)
-		{			    
-			if(temp&0x80)LCD_Fast_DrawPoint(x,y,POINT_COLOR);
-			else if(mode==0)LCD_Fast_DrawPoint(x,y,BACK_COLOR);
-			temp<<=1;
-			y++;
-			if(y>=lcddev.height)return;		//3???óòá?
-			if((y-y0)==size)
-			{
-				y=y0;
-				x++;
-				if(x>=lcddev.width)return;	//3???óòá?
-				break;
-			}
-		}  	 
-	}  	    	   	 	  
+    u16 y0=y;
+    u8 csize=(size/8+((size%8)?1:0))*(size/2);		//μ?μ?×?ì?ò???×?·???ó|μ??ó?ˉ?ù??μ?×??úêy	
+    num=num-' ';//μ?μ???ò?oóμ??μ￡¨ASCII×??aê?′ó?????aê?è??￡￡??ùò?-' '?íê???ó|×?·?μ?×??a￡?
+    for(t=0;t<csize;t++)
+    {   
+            if(size==12)temp=asc2_1206[num][t]; 	 	//μ÷ó?1206×?ì?
+            else if(size==16)temp=asc2_1608[num][t];	//μ÷ó?1608×?ì?
+            else if(size==24)temp=asc2_2412[num][t];	//μ÷ó?2412×?ì?
+            else return;								//??óDμ?×??a
+            for(t1=0;t1<8;t1++)
+            {			    
+                    if(temp&0x80)LCD_Fast_DrawPoint(x,y,POINT_COLOR);
+                    else if(mode==0)LCD_Fast_DrawPoint(x,y,BACK_COLOR);
+                    temp<<=1;
+                    y++;
+                    if(y>=lcddev.height)return;		//3???óòá?
+                    if((y-y0)==size)
+                    {
+                            y=y0;
+                            x++;
+                            if(x>=lcddev.width)return;	//3???óòá?
+                            break;
+                    }
+            }  	 
+    }  	    	   	 	  
 }   
 //m^noˉêy
 //·μ???μ:m^n′?·?.
@@ -2804,20 +2800,20 @@ void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode)
 	 	LCD_ShowChar(x+(size/2)*t,y,temp+'0',size,mode&0X01); 
 	}
 } 
-//??ê?×?·?′?
-//x,y:?eμ?×?±ê
-//width,height:??óò′óD?  
-//size:×?ì?′óD?
-//*p:×?·?′??eê?μ??·		  
+//显示字符串
+//x,y:区域坐标
+//width,height:区域大小 
+//size:字体大小
+//*p:字符串起始地址		  
 void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p)
 {         
 	u8 x0=x;
 	width+=x;
 	height+=y;
-    while((*p<='~')&&(*p>=' '))//?D??ê?2?ê?·?·¨×?·?!
+    while((*p<='~')&&(*p>=' '))//判断是否为非法字符，即输入是否有问题
     {       
         if(x>=width){x=x0;y+=size;}
-        if(y>=height)break;//í?3?
+        if(y>=height)break;//退出
         LCD_ShowChar(x,y,*p,size,0);
         x+=size/2;
         p++;

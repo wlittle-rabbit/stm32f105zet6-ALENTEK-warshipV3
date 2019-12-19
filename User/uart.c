@@ -2,6 +2,7 @@
 
 void init_usart1(int rate)
 {
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1|RCC_APB2Periph_GPIOA, ENABLE);
   GPIO_InitTypeDef GPIO_InitStructure; 
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9; 
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
@@ -10,6 +11,15 @@ void init_usart1(int rate)
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10; 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+  
+  // 设置中断优先级-主函数中设置中断优先级分组
+ /* NVIC_InitTypeDef NVIC_InitStrue;
+  NVIC_InitStrue.NVIC_IRQChannel= USART1_IRQn;
+  NVIC_InitStrue.NVIC_IRQChannelCmd=ENABLE;//IRQ 通道使能
+  NVIC_InitStrue.NVIC_IRQChannelPreemptionPriority=1;//抢占优先级 1
+  NVIC_InitStrue.NVIC_IRQChannelSubPriority=1;//子优先级 1
+  NVIC_Init(&NVIC_InitStrue);//中断优先级初始化
+  */
   USART_InitTypeDef USART_InitStructure;
   USART_InitStructure.USART_BaudRate = rate;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -17,19 +27,11 @@ void init_usart1(int rate)
   USART_InitStructure.USART_Parity = USART_Parity_No;
   USART_InitStructure.USART_HardwareFlowControl =USART_HardwareFlowControl_None;
   USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
-  USART_Init(USART1, &USART_InitStructure);
-  USART_Cmd(USART1, ENABLE);
   
-
+  USART_Init(USART1, &USART_InitStructure); 
   //使能串口1中断-接收数据完成中断
-  USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);//开启中断
-  // 设置中断优先级-主函数中设置中断优先级分组
-  NVIC_InitTypeDef NVIC_InitStrue;
-  NVIC_InitStrue.NVIC_IRQChannel= USART1_IRQn;
-  NVIC_InitStrue.NVIC_IRQChannelCmd=ENABLE;//IRQ 通道使能
-  NVIC_InitStrue.NVIC_IRQChannelPreemptionPriority=1;//抢占优先级 1
-  NVIC_InitStrue.NVIC_IRQChannelSubPriority=1;//子优先级 1
-  NVIC_Init(&NVIC_InitStrue);//中断优先级初始化
+  //USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);//开启中断
+  USART_Cmd(USART1, ENABLE);
 }
 void uartsend_string(char *p,int n)
 {
@@ -103,7 +105,7 @@ int usart_receive_frame()
   int Frame_len=0;
   int FUNCTION=0;
   int Checksum=0;
-  int Frame_end=0;
+  //int Frame_end=0;
   while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE)==0);
   Frame_start=USART1->DR;
   if(Frame_start!=0x55)
@@ -130,7 +132,7 @@ int usart_receive_frame()
       Checksum=USART1->DR;
       break;
     default:
-      
+      break;
   }
   while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE)==0);
     Frame_len=USART1->DR;

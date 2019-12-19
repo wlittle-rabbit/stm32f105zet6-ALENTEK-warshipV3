@@ -31,10 +31,10 @@ void delay_us(u32 nus)
   SysTick->CTRL&=~SysTick_CTRL_ENABLE_Msk;//壽敕數杅ん
   SysTick->VAL =0X00;   
 }
-void delay_ms(u16 nms)
+void delay_ms(uint16_t nms)
 {	 		  	  
-	u32 temp;		   
-	SysTick->LOAD=(u32)nms*9000;				//那㊣???車??(SysTick->LOAD?a24bit)
+	uint32_t temp;		   
+	SysTick->LOAD=(uint32_t)nms*9000;				//那㊣???車??(SysTick->LOAD?a24bit)
 	SysTick->VAL =0x00;							//??????那y?¯
 	SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk ;	//?a那?米1那y  
 	do
@@ -43,4 +43,10 @@ void delay_ms(u16 nms)
 	}while((temp&0x01)&&!(temp&(1<<16)));		//米豕∩y那㊣??米?∩?   
 	SysTick->CTRL&=~SysTick_CTRL_ENABLE_Msk;	//1?㊣???那y?¯
 	SysTick->VAL =0X00;       					//??????那y?¯	  	    
-} 
+}
+/*void delay_ms(uint16_t nms)
+{
+  int i=0;
+  for(i=0;i<nms;i++)
+    delay_us(1000);
+}*/

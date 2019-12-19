@@ -78,4 +78,17 @@ extern char uartrecv_char(void);
 extern void uartrecv_string_forever(char *p);
 extern int usart_receive_frame(); 
 extern int uartrecv_string_int(char *recvdata,int timeout_us);
+extern __IO uint32_t bDeviceState;
+extern u8 USB_USART_RX_BUF[USB_USART_REC_LEN]; 
+extern u16 USB_USART_RX_STA; 
+//extern CONFIGURED;
+//extern enum _DEVICE_STATE;
+extern void usb_printf(char* fmt,...);  
+extern void LCD_Init(void);
+extern void delay_ms(u16 nms);
+extern void USB_Port_Set(u8 enable);
+extern void Set_USBClock(void);
+extern void USB_Interrupts_Config(void);
+extern void USB_Init(void);
+
 #endif
